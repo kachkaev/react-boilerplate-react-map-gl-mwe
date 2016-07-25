@@ -4,6 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+require('transform-loader');
 
 module.exports = (options) => ({
   entry: options.entry,
@@ -13,6 +14,9 @@ module.exports = (options) => ({
   }, options.output), // Merge with env dependent settings
   module: {
     loaders: [{
+      test: /use_program\.js$/,
+      loader: 'transform/cacheable?brfs',
+    }, {
       test: /\.js$/, // Transform all .js files required somewhere with Babel
       loader: 'babel',
       exclude: /node_modules/,
@@ -50,6 +54,11 @@ module.exports = (options) => ({
       test: /\.(mp4|webm)$/,
       loader: 'url-loader?limit=10000',
     }],
+    postLoaders: [{
+      include: /node_modules\/mapbox-gl/,
+      loader: 'transform',
+      query: 'brfs',
+    }],
   },
   plugins: options.plugins.concat([
     new webpack.ProvidePlugin({
@@ -79,6 +88,9 @@ module.exports = (options) => ({
       'jsnext:main',
       'main',
     ],
+    alias: {
+      webworkify: 'webworkify-webpack',
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

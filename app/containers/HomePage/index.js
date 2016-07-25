@@ -10,12 +10,25 @@
  */
 
 import React from 'react';
+import MapGL from 'react-map-gl';
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
     return (
-      <h1>This is the Homepage!</h1>
+      <div>
+        <h1>react-boilerplate + react-map-gl</h1>
+        {/* Do not re-use my Mapbox token apart from in this demo, I will delete it soon. Get yours at mapbox.com */}
+        <MapGL
+          width={400}
+          height={400}
+          longitude={0}
+          latitude={0}
+          zoom={4}
+          mapStyle="mapbox://styles/mapbox/streets-v9"
+          mapboxApiAccessToken="pk.eyJ1Ijoia2FjaGthZXYiLCJhIjoiY2lyMjFsazI2MDA3eWkybWc3NjNlbmZrdiJ9._AVffYG3hv267NhgRhSl3Q"
+        />
+      </div>
     );
   }
 }
